@@ -29,21 +29,26 @@
       >
         <span>Log out</span>
       </v-btn>
-      <v-btn v-if="!$auth.$state.loggedIn" class="white--text" nuxt to="/login" text right>
+      <v-btn small v-if="!$auth.$state.loggedIn" class="white--text" nuxt to="/login" text right>
         <span>Log in</span>
         <v-icon right>arrow_upward</v-icon>
       </v-btn>
-      <nuxt-link
+      <v-btn
+        small
         v-if="!$auth.$state.loggedIn"
+        class="white--text"
+        nuxt
         to="/signup"
-        tag="v-btn"
-        text
-        class="black--text ml-3"
+        outlined
         right
       >
         <span>Sign up</span>
         <v-icon right>contact_mail</v-icon>
-      </nuxt-link>
+      </v-btn>
+      <!-- <nuxt-link v-if="!$auth.$state.loggedIn" text class="black--text ml-3" right>
+        <v-btn to="/signup">Sign up</v-btn>
+        <v-icon right>contact_mail</v-icon>
+      </nuxt-link>-->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" color="#05386B" absolute temporary>

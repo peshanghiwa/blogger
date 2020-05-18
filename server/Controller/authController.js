@@ -10,7 +10,7 @@ exports.signUp = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
       gender: req.body.gender,
-      birthdate: req.body.birthdate,
+      birthdate: req.body.birthdate
     });
 
     if (req.file) {
@@ -21,12 +21,12 @@ exports.signUp = async (req, res, next) => {
 
     const newUser = await User.save();
     const token = await jwt.sign(newUser.toJSON(), process.env.JWT_KEY, {
-      expiresIn: 604800,
+      expiresIn: 604800
     });
     res.status(200).json({
       user: newUser,
       status: "success",
-      token,
+      token
     });
   } catch (err) {
     return next(err);
@@ -62,7 +62,7 @@ exports.login = async (req, res, next) => {
         id: user.id,
         email: user.email,
         fullName: user.fullName,
-        username: user.username,
+        username: user.username
       },
       process.env.JWT_KEY,
       { expiresIn: 604800 }
@@ -71,7 +71,7 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      message: "Login succefull!",
+      message: "Login succefull!"
     });
   } catch (err) {
     return next(err);
@@ -87,7 +87,7 @@ exports.user = async (req, res, next) => {
     }
     res.status(200).json({
       status: "success",
-      user: foundUser,
+      user: foundUser
     });
   } catch (err) {
     return next(err);
