@@ -32,7 +32,7 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ["~static/css/style.css", "~assets/fonts/poppins.css"],
+  // css: ["~static/css/style.css", "~assets/fonts/poppins.css"],
   /*
    ** Plugins to load before mounting the App
    */

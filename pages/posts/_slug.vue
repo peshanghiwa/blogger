@@ -204,9 +204,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  font-family: "Poppins";
-}
 .clicked-true {
   color: #05386b !important;
 }

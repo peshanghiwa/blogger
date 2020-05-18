@@ -5,7 +5,7 @@
 
       <v-toolbar-title class="text-uppercase text--black mr-8">
         <span>
-          <strong style=" font-family: Poppins">Blogger</strong>
+          <strong>Blogger</strong>
         </span>
       </v-toolbar-title>
       <v-toolbar-items class="hidden-sm-and-down" v-for="(navLink, index) in navLinks" :key="index">
@@ -124,12 +124,6 @@ export default {
 </script>
 
 <style>
-* {
-  font-family: "Poppins";
-}
-span {
-  font-family: "Poppins" !important;
-}
 .activeHover:hover {
   cursor: pointer;
   color: #5cdb95;
