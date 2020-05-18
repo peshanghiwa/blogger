@@ -111,7 +111,13 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+* {
+  font-family: "Poppins";
+}
+span {
+  font-family: "Poppins" !important;
+}
 .activeHover:hover {
   cursor: pointer;
   color: #5cdb95;
