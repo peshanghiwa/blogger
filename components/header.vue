@@ -5,7 +5,7 @@
 
       <v-toolbar-title class="text-uppercase text--black mr-8">
         <span>
-          <strong>Blogger</strong>
+          <strong style=" font-family: Poppins">Blogger</strong>
         </span>
       </v-toolbar-title>
       <v-toolbar-items class="hidden-sm-and-down" v-for="(navLink, index) in navLinks" :key="index">
@@ -92,16 +92,28 @@ export default {
   },
   methods: {
     async onLogout() {
-      this.logoutBtnLoading = true;
-      await this.$auth.logout();
-      this.logoutBtnLoading = false;
-      return this.$store.dispatch("snackbar/showSnackbar", {
-        show: true,
-        text: "Logged out Successfully!",
-        timeout: 10000,
-        color: "success",
-        multiline: false
-      });
+      try {
+        this.logoutBtnLoading = true;
+        await this.$auth.logout();
+        this.logoutBtnLoading = false;
+        return this.$store.dispatch("snackbar/showSnackbar", {
+          show: true,
+          text: "Logged out Successfully!",
+          timeout: 10000,
+          color: "success",
+          multiline: false
+        });
+      } catch (err) {
+        this.logoutBtnLoading = false;
+        return this.$store.dispatch("snackbar/showSnackbar", {
+          show: true,
+          text: "Logged out Failed!",
+          timeout: 10000,
+          color: "error",
+          multiline: false
+        });
+        console.log(err.response);
+      }
     },
     route(link) {
       this.$router.push(link);

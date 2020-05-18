@@ -110,7 +110,7 @@ export default {
         loadMoreCommentsBtn: isTrue
       };
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
