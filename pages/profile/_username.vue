@@ -23,6 +23,7 @@ export default {
         posts: postRes.posts
       };
     } catch (err) {
+      console.log(err.response.data);
       error({
         statusCode: err.response.status,
         message: err.response.data.message

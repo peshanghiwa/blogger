@@ -22,6 +22,7 @@ export default {
           this.$router.push("/login");
         }
       } catch (err) {
+        console.log(err.response.data);
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
           text: err.response.data.message,
