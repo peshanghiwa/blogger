@@ -1,0 +1,24 @@
+import Vue from "vue";
+import loginComponent from "../components/login";
+import signupComponent from "../components/signup";
+import headerComponent from "../components/header";
+import footerComponent from "../components/footer";
+import snackbarComponent from "../components/snackbar";
+import profileComponent from "../components/profile";
+import postsComponent from "../components/posts";
+import yesNoDialogComponent from "../components/custom/dialogs/yes-no";
+import formDialog from "../components/custom/dialogs/edit-post";
+import checkCodeDialogComponent from "../components/custom/dialogs/check-code-dialog";
+import recoveredPasswordDialogComponent from "../components/custom/dialogs/recover-password-dialog";
+
+Vue.component("login", loginComponent);
+Vue.component("signup", signupComponent);
+Vue.component("nav-header", headerComponent);
+Vue.component("nav-footer", footerComponent);
+Vue.component("snack-bar", snackbarComponent);
+Vue.component("profile", profileComponent);
+Vue.component("posts", postsComponent);
+Vue.component("yes-no-dialog", yesNoDialogComponent);
+Vue.component("edit-post", formDialog);
+Vue.component("check-code", checkCodeDialogComponent);
+Vue.component("recover-password", recoveredPasswordDialogComponent);
