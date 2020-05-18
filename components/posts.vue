@@ -127,7 +127,7 @@ export default {
           event.path[0].classList.add("clicked-false");
         }
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data);
       }
     },
     updatePost(updatedPost) {

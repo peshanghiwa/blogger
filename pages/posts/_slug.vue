@@ -110,7 +110,7 @@ export default {
         loadMoreCommentsBtn: isTrue
       };
     } catch (err) {
-      console.log(err.response);
+      console.log(err.response.data);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
@@ -149,6 +149,7 @@ export default {
           });
         }
       } catch (err) {
+        console.log(err.response.data);
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
           text: err.response.data.message,
@@ -187,6 +188,7 @@ export default {
           event.path[1].childNodes[0].classList.add("clicked-false");
         }
       } catch (err) {
+        console.log(err.response.data);
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
           text: err.response.data.message,

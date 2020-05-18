@@ -104,6 +104,7 @@ export default {
           multiline: false
         });
       } catch (err) {
+        console.log(err.response.data);
         this.logoutBtnLoading = false;
         return this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
@@ -112,7 +113,6 @@ export default {
           color: "error",
           multiline: false
         });
-        console.log(err.response);
       }
     },
     route(link) {
