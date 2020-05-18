@@ -63,5 +63,9 @@ export default {
 };
 </script>
 
-<style>
+
+<style scoped>
+* {
+  font-family: "Poppins";
+}
 </style>

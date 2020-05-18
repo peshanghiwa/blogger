@@ -110,6 +110,7 @@ export default {
         loadMoreCommentsBtn: isTrue
       };
     } catch (err) {
+      console.log(err);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
@@ -200,6 +201,9 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: "Poppins";
+}
 .clicked-true {
   color: #05386b !important;
 }
