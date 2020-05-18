@@ -30,7 +30,7 @@ export default {
   async asyncData({ $axios, isDev, route, store, params, redirect, error }) {
     try {
       const postsResponse = await $axios.$get(
-        "http://localhost:4000/api/post/getposts?sort=-createdAt&limit=11"
+        "/api/post/getposts?sort=-createdAt&limit=11"
       );
       let isTrue = postsResponse.length == 0 ? false : true;
       return {
@@ -38,6 +38,7 @@ export default {
         loadMorePostsBtn: isTrue
       };
     } catch (err) {
+      console.log(err);
       error({
         statusCode: err.response.status,
         message: err.response.data.message

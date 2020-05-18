@@ -21,7 +21,7 @@
           <span
             :class="`material-icons mr-1 clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"
           >favorite</span>
-          <span>Love</span>
+          <span>{{post.likes.length}}</span>
         </v-btn>
         <v-btn @click="show = !show" style="font-size:20px" color="#05386b" text>
           <span class="material-icons mr-1">insert_comment</span>

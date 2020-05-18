@@ -45,10 +45,6 @@
         <span>Sign up</span>
         <v-icon right>contact_mail</v-icon>
       </v-btn>
-      <!-- <nuxt-link v-if="!$auth.$state.loggedIn" text class="black--text ml-3" right>
-        <v-btn to="/signup">Sign up</v-btn>
-        <v-icon right>contact_mail</v-icon>
-      </nuxt-link>-->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" color="#05386B" absolute temporary>
