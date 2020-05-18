@@ -20,7 +20,7 @@ exports.addPost = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "New post has been added succefully",
-      post: newPost,
+      post: newPost
     });
   } catch (err) {
     return next(err);
@@ -46,9 +46,10 @@ exports.getPosts = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       posts,
-      requestLimit,
+      requestLimit
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -66,21 +67,23 @@ exports.getPostsForSpecific = async (req, res, next) => {
     const posts = await postsPromise;
     if (!posts)
       return next(new ErrorBuilder("No posts found for this user!", 404));
-
     res.status(200).json({
       status: "success",
-      posts,
+      posts
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
 
 exports.getPost = async (req, res, next) => {
   try {
+    console.log("here1");
     const post = await PostModel.findOne({ postSlug: req.params.postSlug })
       .populate("author")
       .exec();
+    console.log("here2");
     if (!post) {
       return next(
         new ErrorBuilder(
@@ -91,9 +94,10 @@ exports.getPost = async (req, res, next) => {
     }
     res.status(200).json({
       status: "success",
-      post,
+      post
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -122,7 +126,7 @@ exports.updatePost = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      message: "Post Updated Successfully",
+      message: "Post Updated Successfully"
     });
   } catch (err) {
     return next(err);
@@ -149,7 +153,7 @@ exports.deletePost = async (req, res, next) => {
     await PostModel.findByIdAndDelete(req.params.id);
     res.status(200).json({
       status: "success",
-      message: "Post Deleted Successfully!",
+      message: "Post Deleted Successfully!"
     });
   } catch (err) {
     next(err);
