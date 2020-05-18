@@ -189,6 +189,7 @@ export default {
         }
       } catch (err) {
         console.log(err.response.data);
+        console.log(err.response.data);
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
           text: err.response.data.message,

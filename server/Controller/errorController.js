@@ -2,13 +2,13 @@ const errorResponse = (err, res) => {
   if (process.env.mode === "production") {
     res.status(err.statusCode).json({
       error: err,
-      message: err.message,
+      message: err.message
     });
   } else if (process.env.mode === "development") {
     res.status(err.statusCode).json({
       error: err,
       message: err.message,
-      stack: err.stack,
+      stack: err.stack
     });
   }
 };
@@ -16,6 +16,8 @@ const errorResponse = (err, res) => {
 module.exports = (err, req, res, next) => {
   err.status = err.status || "Error";
   err.statusCode = err.statusCode || 500;
+
+  console.log(err);
 
   //-> Cloning the err Object in order not to alter the original Error variable
   let error = { ...err };
@@ -31,7 +33,7 @@ module.exports = (err, req, res, next) => {
   //-> Checking Validation Errors Coming from mongoose
   if (err.name == "ValidationError") {
     let message = [];
-    Object.entries(err.errors).forEach((element) => {
+    Object.entries(err.errors).forEach(element => {
       message.push(element[1].message);
     });
     error.message = message;

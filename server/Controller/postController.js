@@ -83,7 +83,6 @@ exports.getPost = async (req, res, next) => {
     const post = await PostModel.findOne({ postSlug: req.params.postSlug })
       .populate("author")
       .exec();
-    console.log("here2");
     if (!post) {
       return next(
         new ErrorBuilder(

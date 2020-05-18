@@ -38,7 +38,4 @@ export default {
 
 
 <style scoped>
-* {
-  font-family: "Poppins";
-}
 </style>
