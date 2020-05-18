@@ -1,6 +1,9 @@
 * {
   font-family: "Poppins";
 }
+span {
+  font-family: "Poppins" !important;
+}
 .clicked-true {
   color: #05386b !important;
 }
