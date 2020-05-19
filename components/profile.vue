@@ -5,7 +5,7 @@
         <v-img
           class="white--text align-end"
           height="200px"
-          :src="require(`../assets/images/users/${user.photo}`)"
+          :src="require(`~/assets/images/users/${user.photo}`)"
         ></v-img>
         <v-card-text class="caption lighten-5 py-0 mt-5">Full Name</v-card-text>
         <v-card-title class="mb-5 py-0 float-left">{{user.fullName}}</v-card-title>

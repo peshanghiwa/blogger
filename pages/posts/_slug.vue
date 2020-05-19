@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card class="mx-auto grey lighten-5 pb-2" max-width="700">
-      <v-img :src="require(`../../assets/images/posts/${post.photo}`)" cover max-height="400px"></v-img>
+      <v-img :src="require(`~/assets/images/posts/${post.photo}`)" cover max-height="400px"></v-img>
       <v-card-title>{{post.title}}</v-card-title>
       <v-card-subtitle>
         <nuxt-link
@@ -58,7 +58,7 @@
           >
             <v-list-item>
               <v-list-item-avatar style="top:0; position:absolute;" color="grey">
-                <v-img :src="require(`../../assets/images/users/${comment.userId.photo}`)"></v-img>
+                <v-img :src="require(`~/assets/images/users/${comment.userId.photo}`)"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="title ml-12 mb-0">{{comment.userId.fullName}}</v-list-item-title>

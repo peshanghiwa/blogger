@@ -51,7 +51,7 @@
       <v-list nav dense>
         <v-list-item-group v-if="$auth.$state.loggedIn" class="pa-3" block>
           <img
-            :src="require(`../assets/images/users/${this.$auth.$state.user.photo}`)"
+            :src="require(`~/assets/images/users/${this.$auth.$state.user.photo}`)"
             alt="image"
             height="100"
             class="mb-2"
