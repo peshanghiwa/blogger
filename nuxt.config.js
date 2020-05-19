@@ -55,7 +55,16 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    proxy: true
+  },
+  /*
+   ** Proxy Settings here
+   */
+  proxy: {
+    "/api": "http://localhost:3000",
+    ws: true
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
