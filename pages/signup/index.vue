@@ -19,12 +19,12 @@ export default {
         this.loadingBtn = true;
         const response = await this.$axios.$post("/api/auth/signup", data.form);
         if (response.status == "success") {
-          this.$auth.loginWith("local", {
-            data: {
-              email: data.userData.email,
-              password: data.userData.password
-            }
-          });
+          // this.$auth.loginWith("local", {
+          //   data: {
+          //     email: data.userData.email,cd open
+          //     password: data.userData.password
+          //   }
+          // });
           this.loginBtnLoading = false;
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
@@ -33,6 +33,7 @@ export default {
             color: "success",
             multiline: false
           });
+          this.$router.push("/login");
         }
       } catch (err) {
         console.log(err.response.data);

@@ -95,9 +95,7 @@ export default {
           form.append("content", this.newPostData.content);
           form.append("photo", this.newPostData.photo);
           const response = await this.$axios.$post("/api/post/addpost", form);
-          // window.setTimeout(() => {
           this.$emit("newPostAdded");
-          // }, 1000);
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: "New Post Created Successfully!",
