@@ -28,7 +28,7 @@ export default {
           this.loginBtnLoading = false;
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
-            text: "New Account Created Successfully",
+            text: "New Account Created Successfully, You can now log in.",
             timeout: 9000,
             color: "success",
             multiline: false
