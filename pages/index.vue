@@ -89,10 +89,6 @@ export default {
         users: response[1].Users
       };
     } catch (err) {
-      console.log(err);
-      console.log(err.response);
-      console.log(err.response.data);
-      console.log(err.response.data.message);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
@@ -111,10 +107,12 @@ export default {
         });
       try {
         if (event.path[0].classList[5] != "clicked-true") {
+          console.log("like");
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
         } else {
+          console.log("unlike");
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
@@ -134,5 +132,11 @@ export default {
 </script>
 
 <style scoped>
+.clicked-true {
+  color: #05386b !important;
+}
+.clicked-false {
+  color: #707070 !important;
+}
 </style>
 

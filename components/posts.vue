@@ -47,7 +47,7 @@
             class="white--text"
           >Read Post</v-btn>
           <v-spacer></v-spacer>
-          <v-btn large icon @click="toggleLike(post._id, $event)">
+          <v-btn large icon :disabled="lockLike" @click="toggleLike(post._id, $event)">
             <v-icon
               large
               :class="`clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"
@@ -100,7 +100,8 @@ export default {
     return {
       editPost: ["Update Post", "Delete Post"],
       updateDialog: {},
-      deleteDialog: {}
+      deleteDialog: {},
+      lockLike: false
     };
   },
   props: ["user", "posts", "loggedProfile", "loadMorePostsBtn"],
@@ -116,13 +117,15 @@ export default {
         });
       try {
         if (event.path[0].classList[5] != "clicked-true") {
+          this.lockLike = true;
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
-
+          this.lockLike = false;
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
         } else {
+          this.lockLike = true;
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
-
+          this.lockLike = false;
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
         }

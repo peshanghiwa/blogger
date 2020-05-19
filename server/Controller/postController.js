@@ -17,6 +17,9 @@ exports.addPost = async (req, res, next) => {
     }
 
     const newPost = await Post.save();
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     res.status(200).json({
       status: "success",
       message: "New post has been added succefully",
@@ -146,7 +149,8 @@ exports.deletePost = async (req, res, next) => {
       );
 
     if (post.photo != "default.jpeg") {
-      fs.unlink(`../client/assets/images/posts/${post.photo}`, () => {});
+      console.log("heeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeee");
+      fs.unlink(`./assets/images/posts/${post.photo}`, () => {});
     }
 
     await PostModel.findByIdAndDelete(req.params.id);

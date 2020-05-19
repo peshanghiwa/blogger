@@ -95,7 +95,9 @@ export default {
           form.append("content", this.newPostData.content);
           form.append("photo", this.newPostData.photo);
           const response = await this.$axios.$post("/api/post/addpost", form);
-          event.target.reset();
+          // window.setTimeout(() => {
+          this.$emit("newPostAdded");
+          // }, 1000);
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: "New Post Created Successfully!",
@@ -105,7 +107,6 @@ export default {
           });
           this.loading = false;
           this.dialog = false;
-          location.reload();
         } catch (err) {
           console.log(err.response.data);
           this.$store.dispatch("snackbar/showSnackbar", {
@@ -124,3 +125,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.clicked-true {
+  color: #05386b !important;
+}
+.clicked-false {
+  color: #707070 !important;
+}
+</style>

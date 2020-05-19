@@ -79,7 +79,7 @@ async function start() {
 
   //->Database Connection Handler
   mongoose
-    .connect(`${process.env.ATLAS_DATABASE_CONNECTION}`, {
+    .connect(`${process.env.DATABASE_CONNECTION}`, {
       useFindAndModify: false,
       useNewUrlParser: true,
       useUnifiedTopology: true

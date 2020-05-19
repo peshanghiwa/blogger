@@ -20,6 +20,7 @@ exports.signUp = async (req, res, next) => {
     }
 
     const newUser = await User.save();
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const token = await jwt.sign(newUser.toJSON(), process.env.JWT_KEY, {
       expiresIn: 604800
     });

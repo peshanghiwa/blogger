@@ -11,7 +11,7 @@ const multerFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: multerStorage,
-  fileFilter: multerFilter,
+  fileFilter: multerFilter
 });
 exports.upload = upload.single("photo");
 
@@ -23,7 +23,7 @@ exports.resize = async (req, res, next) => {
     await sharp(req.file.buffer)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`../client/assets/images/posts/${req.file.filename}`, (err) => {
+      .toFile(`./assets/images/posts/${req.file.filename}`, err => {
         if (err) {
           next(err);
         }

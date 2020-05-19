@@ -80,14 +80,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col
-          cols="12"
-          offset-xs="0"
-          sm="5"
-          offset-sm="1"
-          md="3"
-          offset-md="3"
-        >
+        <v-col cols="12" offset-xs="0" sm="5" offset-sm="1" md="3" offset-md="3">
           <v-select
             v-model="gender"
             :rules="genderRules"
@@ -114,14 +107,7 @@
             <v-date-picker v-model="birthdate"></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col
-          cols="12"
-          offset-xs="0"
-          sm="10"
-          offset-sm="1"
-          md="6"
-          offset-md="3"
-        >
+        <v-col cols="12" offset-xs="0" sm="10" offset-sm="1" md="6" offset-md="3">
           <v-file-input
             @change="onFileChange"
             accept="image/*"
@@ -132,12 +118,13 @@
         </v-col>
         <v-col offset-sm="1" offset-md="3">
           <v-btn
+            :loading="loadingBtn"
+            :disabled="loadingBtn"
             @click="submit"
             depressed
             color="#05386B"
             class="mx-0 mt-3 white--text"
-            >Submit</v-btn
-          >
+          >Submit</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -153,6 +140,7 @@ import {
   notEmpty
 } from "../plugins/validation";
 export default {
+  props: ["loadingBtn"],
   data() {
     return {
       fullName: "",
