@@ -89,6 +89,10 @@ export default {
         users: response[1].Users
       };
     } catch (err) {
+      console.log(err);
+      console.log(err.response);
+      console.log(err.response.data);
+      console.log(err.response.data.message);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
