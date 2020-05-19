@@ -23,11 +23,14 @@ exports.resize = async (req, res, next) => {
     await sharp(req.file.buffer)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`./assets/images/posts/${req.file.filename}`, err => {
-        if (err) {
-          next(err);
+      .toFile(
+        __dirname + `/../../assets/images/posts/${req.file.filename}`,
+        err => {
+          if (err) {
+            next(err);
+          }
         }
-      });
+      );
     next();
   } catch (err) {
     return next(err);

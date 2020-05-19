@@ -24,11 +24,14 @@ exports.resize = async (req, res, next) => {
       .resize(500, 500)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`./assets/images/users/${req.file.filename}`, err => {
-        if (err) {
-          console.log(err);
+      .toFile(
+        __dirname + `/../../assets/images/users/${req.file.filename}`,
+        err => {
+          if (err) {
+            console.log(err);
+          }
         }
-      });
+      );
     next();
   } catch (err) {
     return next(err);
