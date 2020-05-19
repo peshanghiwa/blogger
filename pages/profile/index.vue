@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <profile :loggedProfile="true" :user="$auth.$state.user" @newPostAdded="refreshPosts"></profile>
+    <profile :loggedProfile="true" :user="$auth.$state.user"></profile>
     <posts
       :loggedProfile="true"
       :user="$auth.$state.user"
@@ -34,22 +34,6 @@ export default {
     }
   },
   methods: {
-    async refreshPosts() {
-      try {
-        const postRes = await this.$axios.$get(
-          `/api/post/getuserposts/${this.$auth.$state.user._id}`
-        );
-        this.posts = postRes.posts;
-      } catch (err) {
-        this.$store.dispatch("snackbar/showSnackbar", {
-          show: true,
-          text: "Couldn't load the new post, please refresh the page!",
-          timeout: 4000,
-          color: "error",
-          multiline: false
-        });
-      }
-    },
     deletePost(postId) {
       this.posts = this.posts.filter(post => post._id != postId);
       this.$store.dispatch("snackbar/showSnackbar", {

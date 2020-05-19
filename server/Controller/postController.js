@@ -18,8 +18,6 @@ exports.addPost = async (req, res, next) => {
 
     const newPost = await Post.save();
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
     res.status(200).json({
       status: "success",
       message: "New post has been added succefully",

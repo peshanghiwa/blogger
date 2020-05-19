@@ -20,7 +20,6 @@ exports.signUp = async (req, res, next) => {
     }
 
     const newUser = await User.save();
-    await new Promise(resolve => setTimeout(resolve, 3000));
     const token = await jwt.sign(newUser.toJSON(), process.env.JWT_KEY, {
       expiresIn: 604800
     });
@@ -83,9 +82,9 @@ exports.user = async (req, res, next) => {
   try {
     const foundUser = await UserModel.findById(req.decoded.id);
 
-    if (!foundUser) {
-      return next(new ErrorBuilder("No User Found", 404));
-    }
+    // if (!foundUser) {
+    //   return next(new ErrorBuilder("No User Found", 404));
+    // }
     res.status(200).json({
       status: "success",
       user: foundUser
