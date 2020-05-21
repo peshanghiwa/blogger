@@ -45,7 +45,7 @@
       <v-btn
         small
         v-if="!$auth.$state.loggedIn"
-        class="white--text"
+        class="white--text ml-2"
         nuxt
         to="/signup"
         outlined

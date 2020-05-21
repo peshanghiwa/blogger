@@ -28,12 +28,11 @@ export default {
           this.loginBtnLoading = false;
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
-            text: "New Account Created Successfully, You can now log in.",
+            text: "New Account Created Successfully, You are now logged in.",
             timeout: 9000,
             color: "success",
             multiline: false
           });
-          // this.$router.push("/login");
         }
       } catch (err) {
         this.$store.dispatch("snackbar/showSnackbar", {
