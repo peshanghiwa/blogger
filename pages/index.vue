@@ -106,17 +106,18 @@ export default {
           multiline: false
         });
       try {
-        console.log("inside");
-        if (event.path[0].classList[5] != "clicked-true") {
+        if (
+          event.path[0].classList.value.split(" ").includes("clicked-false")
+        ) {
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
+          console.log("like added");
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
-          console.log("liked");
         } else {
+          console.log("like removed");
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
-          console.log("unliked");
         }
       } catch (err) {
         this.$store.dispatch("snackbar/showSnackbar", {

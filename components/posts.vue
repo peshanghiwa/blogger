@@ -116,7 +116,9 @@ export default {
           multiline: false
         });
       try {
-        if (event.path[0].classList[5] != "clicked-true") {
+        if (
+          event.path[0].classList.value.split(" ").includes("clicked-false")
+        ) {
           this.lockLike = true;
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
           this.lockLike = false;
