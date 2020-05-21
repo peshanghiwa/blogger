@@ -25,7 +25,7 @@ export default {
               password: data.userData.password
             }
           });
-          this.loginBtnLoading = false;
+          this.loginBtn = false;
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: "New Account Created Successfully, You are now logged in.",
@@ -35,6 +35,7 @@ export default {
           });
         }
       } catch (err) {
+        this.loginBtn = false;
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
           text: err.response.data.message,

@@ -110,6 +110,7 @@
         <v-col cols="12" offset-xs="0" sm="10" offset-sm="1" md="6" offset-md="3">
           <v-file-input
             @change="onFileChange"
+            :rules="photoRules"
             accept="image/*"
             show-size
             label="Upload Image"
@@ -165,12 +166,22 @@ export default {
       birthdate: "",
       birthdateRules: [v => notEmpty(v)],
       photo: "",
+      photoRules: [v => notEmpty(v)],
       showPassword: false
     };
   },
   methods: {
     async submit() {
       if (this.$refs.form.validate()) {
+        if (this.photo == undefined || this.photo == "") {
+          return this.$store.dispatch("snackbar/showSnackbar", {
+            show: true,
+            text: "You Must Upload an Image!",
+            timeout: 10000,
+            color: "error",
+            multiline: false
+          });
+        }
         const form = new FormData();
         form.append("fullName", this.fullName);
         form.append("username", this.username);

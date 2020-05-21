@@ -23,6 +23,7 @@
                 ></v-textarea>
                 <v-file-input
                   @change="onFileChange"
+                  :rules="photoRules"
                   accept="image/*"
                   show-size
                   label="Upload Image"
@@ -77,6 +78,7 @@ export default {
         photo: ""
       },
       formRules: [v => notEmpty(v, 3), v => minCharacters(v, 3)],
+      photoRules: [v => notEmpty(v)],
       loading: false
     };
   },
@@ -84,6 +86,18 @@ export default {
   methods: {
     async addPost(event) {
       if (this.$refs.form.validate()) {
+        if (
+          this.newPostData.photo == undefined ||
+          this.newPostData.photo == ""
+        ) {
+          return this.$store.dispatch("snackbar/showSnackbar", {
+            show: true,
+            text: "You Must Upload an Image!",
+            timeout: 10000,
+            color: "error",
+            multiline: false
+          });
+        }
         this.loading = true;
         try {
           const form = new FormData();
@@ -102,6 +116,7 @@ export default {
           this.loading = false;
           this.dialog = false;
         } catch (err) {
+          this.loading = false;
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: err.response.data.message,

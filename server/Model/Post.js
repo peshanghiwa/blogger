@@ -29,7 +29,8 @@ const postsSchema = new mongoose.Schema({
     ref: "postsCommentSchema"
   },
   photo: {
-    type: Object
+    type: Object,
+    required: [true, "You Must upload a photo"]
   },
   createdAt: {
     type: Date,

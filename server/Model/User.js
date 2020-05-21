@@ -35,7 +35,8 @@ const userSchema = new mongoose.Schema({
     type: Date
   },
   photo: {
-    type: Object
+    type: Object,
+    required: [true, "You Must upload a photo"]
   },
   passwordRecovery: {
     type: Object,
