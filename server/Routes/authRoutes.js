@@ -8,21 +8,15 @@ const rateLimit = require("express-rate-limit");
 const limitSignup = rateLimit({
   max: 10,
   windowMs: 24 * 60 * 60 * 1000,
-  message: "You have reached request limits please try again later",
+  message: "You have reached request limits please try again later"
 });
 const limitlogin = rateLimit({
   max: 100,
   windowMs: 24 * 60 * 60 * 1000,
-  message: "You have reached request limits please try again later",
+  message: "You have reached request limits please try again later"
 });
 
-router.post(
-  "/signup",
-  limitSignup,
-  photo.upload,
-  photo.resize,
-  authController.signUp
-);
+router.post("/signup", photo.upload, authController.signUp);
 router.post("/login", limitlogin, authController.login);
 router.get("/user", verifyToken, authController.user);
 

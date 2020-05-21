@@ -25,7 +25,6 @@ export default {
         });
         this.loginBtnLoading = false;
       } catch (err) {
-        console.log(err.response.data);
         this.loginBtnLoading = false;
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,

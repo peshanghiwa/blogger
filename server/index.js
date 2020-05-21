@@ -5,12 +5,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-// const env = require("dotenv");
+const env = require("dotenv");
 const helmet = require("helmet");
 const mongoSanatize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
-const rateLimit = require("express-rate-limit");
 const userRoutes = require("./Routes/userRoutes");
 const authRoutes = require("./Routes/authRoutes");
 const postRoutes = require("./Routes/postRoutes");
@@ -18,7 +17,7 @@ const postLikesRoute = require("./Routes/postLikesRoute");
 const postCommentRoutes = require("./Routes/postCommentRoutes");
 const ErrorHandler = require("./Controller/errorController");
 
-// env.config(".dotenv");
+env.config(__dirname + "../.dotenv");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
@@ -45,11 +44,6 @@ app.use("/api/comment", postCommentRoutes);
 //->Error Handling Middleware
 app.use(ErrorHandler);
 
-process.on("unhandledRejection", err => {
-  console.log(err.name, err.message);
-  process.exit(1);
-});
-
 // Import and Set Nuxt.js options
 const config = require("../nuxt.config.js");
 config.dev = process.env.NODE_ENV !== "production";
@@ -71,7 +65,7 @@ async function start() {
   app.use(nuxt.render);
 
   // Listen the server
-  app.listen(port, host);
+  const server = app.listen(port, host);
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true
@@ -90,5 +84,12 @@ async function start() {
     .catch(err => {
       console.log(err);
     });
+
+  process.on("unhandledRejection", err => {
+    console.log(err.name, err.message);
+    server.close(() => {
+      process.exit(1);
+    });
+  });
 }
 start();

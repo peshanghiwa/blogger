@@ -7,8 +7,8 @@
       <v-card color="grey lighten-4" max-width="600" max-height="500" class="mx-auto pb-2 mb-10">
         <v-list-item>
           <v-list-item-avatar color="grey">
-            <v-img v-if="user" :src="require(`~/assets/images/users/${user.photo}`)"></v-img>
-            <v-img v-else :src="require(`~/assets/images/users/${post.author.photo}`)"></v-img>
+            <v-img v-if="user" :src="user.photo.url"></v-img>
+            <v-img v-else :src="post.author.photo.url"></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="subtitle-1">{{post.title}}</v-list-item-title>
@@ -36,7 +36,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-img height="194" :src="require(`~/assets/images/posts/${post.photo}`)"></v-img>
+        <v-img height="194" :src="post.photo.url"></v-img>
         <v-card-text>{{ post.content.slice(0, 90) }}...</v-card-text>
         <v-card-actions>
           <v-btn
@@ -129,9 +129,7 @@ export default {
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
         }
-      } catch (err) {
-        console.log(err.response.data);
-      }
+      } catch (err) {}
     },
     updatePost(updatedPost) {
       this.$emit("postUpdated", updatedPost);

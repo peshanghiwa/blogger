@@ -38,7 +38,6 @@ export default {
         loadMorePostsBtn: isTrue
       };
     } catch (err) {
-      console.log(err.response.data);
       error({
         statusCode: err.response.status,
         message: err.response.data.message

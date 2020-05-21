@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card class="mx-auto grey lighten-5 pb-2" max-width="700">
-      <v-img :src="require(`~/assets/images/posts/${post.photo}`)" cover max-height="400px"></v-img>
+      <v-img :src="post.photo.url" cover max-height="400px"></v-img>
       <v-card-title>{{post.title}}</v-card-title>
       <v-card-subtitle>
         <nuxt-link
@@ -58,7 +58,7 @@
           >
             <v-list-item>
               <v-list-item-avatar style="top:0; position:absolute;" color="grey">
-                <v-img :src="require(`~/assets/images/users/${comment.userId.photo}`)"></v-img>
+                <v-img :src="comment.userId.photo.url"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="title ml-12 mb-0">{{comment.userId.fullName}}</v-list-item-title>
@@ -110,7 +110,6 @@ export default {
         loadMoreCommentsBtn: isTrue
       };
     } catch (err) {
-      console.log(err.response.data);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
@@ -119,44 +118,46 @@ export default {
   },
   methods: {
     async addComment() {
-      if (!this.$auth.$state.loggedIn)
-        return this.$store.dispatch("snackbar/showSnackbar", {
-          show: true,
-          text: "You can't perform this action since you aren't logged in!",
-          timeout: 10000,
-          color: "dark",
-          multiline: false
-        });
-      try {
-        if (this.$refs.form.validate()) {
-          const newComment = await this.$axios.$post(
-            `/api/comment/addcomment/${this.$route.params.slug}`,
-            { comment: this.comment }
-          );
-          newComment.newComment.userId = {
-            photo: this.$auth.$state.user.photo,
-            fullName: this.$auth.$state.user.fullName,
-            username: this.$auth.$state.user.username
-          };
-          this.comments.unshift(newComment.newComment);
-          this.$refs.form.reset();
+      if (this.$refs.form.validate()) {
+        this.noCommentText = "this post doesn't have any more comments!";
+        if (!this.$auth.$state.loggedIn)
+          return this.$store.dispatch("snackbar/showSnackbar", {
+            show: true,
+            text: "You can't perform this action since you aren't logged in!",
+            timeout: 10000,
+            color: "dark",
+            multiline: false
+          });
+        try {
+          if (this.$refs.form.validate()) {
+            const newComment = await this.$axios.$post(
+              `/api/comment/addcomment/${this.$route.params.slug}`,
+              { comment: this.comment }
+            );
+            newComment.newComment.userId = {
+              photo: this.$auth.$state.user.photo,
+              fullName: this.$auth.$state.user.fullName,
+              username: this.$auth.$state.user.username
+            };
+            this.comments.unshift(newComment.newComment);
+            this.$refs.form.reset();
+            this.$store.dispatch("snackbar/showSnackbar", {
+              show: true,
+              text: "Comment Added Successfully!",
+              timeout: 3000,
+              color: "#05386B",
+              multiline: false
+            });
+          }
+        } catch (err) {
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
-            text: "Comment Added Successfully!",
-            timeout: 3000,
-            color: "#05386B",
+            text: err.response.data.message,
+            timeout: 10000,
+            color: "error",
             multiline: false
           });
         }
-      } catch (err) {
-        console.log(err.response.data);
-        this.$store.dispatch("snackbar/showSnackbar", {
-          show: true,
-          text: err.response.data.message,
-          timeout: 10000,
-          color: "error",
-          multiline: false
-        });
       }
     },
     async loadMore(skip) {
@@ -188,8 +189,6 @@ export default {
           event.path[1].childNodes[0].classList.add("clicked-false");
         }
       } catch (err) {
-        console.log(err.response.data);
-        console.log(err.response.data);
         this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
           text: err.response.data.message,

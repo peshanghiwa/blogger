@@ -5,39 +5,39 @@ const Likes = require("./postLikes");
 const postsSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, "Posts Require a Title!"],
+    required: [true, "Posts Require a Title!"]
   },
   postSlug: {
-    type: Number,
+    type: Number
     // unique: true,
   },
   content: {
     type: String,
-    required: [true, "Posts Require a Content!"],
+    required: [true, "Posts Require a Content!"]
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserModel",
-    required: [true, "Posts Require an Author!"],
+    required: [true, "Posts Require an Author!"]
   },
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "postLikesSchema",
+    ref: "postLikesSchema"
   },
   comments: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "postsCommentSchema",
+    ref: "postsCommentSchema"
   },
   photo: {
-    type: String,
+    type: Object
   },
   createdAt: {
     type: Date,
-    default: new Date(Date.now()),
-  },
+    default: new Date(Date.now())
+  }
 });
 
-postsSchema.pre("save", async function (next) {
+postsSchema.pre("save", async function(next) {
   //-> fetch the user data to the author document
   const result = await User.findById(this.author);
   this.author = result;

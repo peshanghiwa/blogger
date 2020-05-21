@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <profile :loggedProfile="true" :user="$auth.$state.user"></profile>
+    <profile :loggedProfile="true" :user="$auth.$state.user" @newPostAdded="refreshPosts"></profile>
     <posts
       :loggedProfile="true"
       :user="$auth.$state.user"
@@ -26,7 +26,6 @@ export default {
         posts: postRes.posts
       };
     } catch (err) {
-      console.log(err.response.data);
       error({
         statusCode: err.response.status,
         message: err.response.data.message
@@ -34,6 +33,12 @@ export default {
     }
   },
   methods: {
+    async refreshPosts() {
+      const postRes = await this.$axios.$get(
+        `/api/post/getuserposts/${this.$auth.$state.user._id}`
+      );
+      this.posts = postRes.posts;
+    },
     deletePost(postId) {
       this.posts = this.posts.filter(post => post._id != postId);
       this.$store.dispatch("snackbar/showSnackbar", {

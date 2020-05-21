@@ -17,8 +17,6 @@ module.exports = (err, req, res, next) => {
   err.status = err.status || "Error";
   err.statusCode = err.statusCode || 500;
 
-  console.log(err);
-
   //-> Cloning the err Object in order not to alter the original Error variable
   let error = { ...err };
   error.message = err.message;

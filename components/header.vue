@@ -16,6 +16,15 @@
           depressed
         >{{ navLink.name }}</v-btn>
       </v-toolbar-items>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn
+          color="#05386B"
+          href="https://github.com/peshanghiwa/blogger"
+          target="_blank"
+          class="white--text text--accent-4"
+          depressed
+        >Github</v-btn>
+      </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-btn
         @click="onLogout"
@@ -51,7 +60,7 @@
       <v-list nav dense>
         <v-list-item-group v-if="$auth.$state.loggedIn" class="pa-3" block>
           <img
-            :src="require(`~/assets/images/users/${this.$auth.$state.user.photo}`)"
+            :src="this.$auth.$state.user.photo.url"
             alt="image"
             height="100"
             class="mb-2"
@@ -61,17 +70,32 @@
             <v-list-item-title class="white--text headline text-center pa-2">
               <nuxt-link tag="span" :to="`/profile`">{{this.$auth.$state.user.fullName}}</nuxt-link>
             </v-list-item-title>
-            <!-- <h3 class="white--text headline text-center">{{this.$auth.$state.user.fullName}}</h3> -->
           </v-list-item>
         </v-list-item-group>
         <v-divider color="white" class="my-3"></v-divider>
         <v-list-item-group active-class="white--text ">
-          <v-list-item v-for="(navLink, index) in navLinks" :key="index">
+          <v-list-item
+            @click="route(navLink.link)"
+            v-for="(navLink, index) in navLinks"
+            :key="index"
+          >
             <v-list-item-icon>
               <v-icon color="white">{{ navLink.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title @click="route(navLink.link)" class="white--text">{{ navLink.name }}</v-list-item-title>
+            <v-list-item-title class="white--text">{{ navLink.name }}</v-list-item-title>
           </v-list-item>
+          <a
+            style="text-decoration:none; color:white;"
+            href="https://github.com/peshanghiwa/blogger"
+            target="_blank"
+          >
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon color="white">star</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="white--text">Github</v-list-item-title>
+            </v-list-item>
+          </a>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -87,6 +111,11 @@ export default {
       navLinks: [
         { name: "Home", link: "/", icon: "home" },
         { name: "Blogs", link: "/posts", icon: "mail_outline" }
+        // {
+        //   name: "Github",
+        //   link: "https://github.com/peshanghiwa/blogger",
+        //   icon: "star"
+        // }
       ]
     };
   },
@@ -104,7 +133,6 @@ export default {
           multiline: false
         });
       } catch (err) {
-        console.log(err.response.data);
         this.logoutBtnLoading = false;
         return this.$store.dispatch("snackbar/showSnackbar", {
           show: true,

@@ -1,6 +1,14 @@
 const UserModel = require("../Model/User");
 const jwt = require("jsonwebtoken");
 const ErrorBuilder = require("../Utils/ErrorBuilder");
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: "dqxq27c81",
+  api_key: "851162165596877",
+  api_secret: "Q10qxubSOPLk4Ikqnh7F44oMnEU"
+});
 
 exports.signUp = async (req, res, next) => {
   try {
@@ -13,21 +21,36 @@ exports.signUp = async (req, res, next) => {
       birthdate: req.body.birthdate
     });
 
-    if (req.file) {
-      User.photo = req.file.filename;
-    } else {
-      User.photo = "default.jpeg";
-    }
-
-    const newUser = await User.save();
-    const token = await jwt.sign(newUser.toJSON(), process.env.JWT_KEY, {
-      expiresIn: 604800
-    });
-    res.status(200).json({
-      user: newUser,
-      status: "success",
-      token
-    });
+    cloudinary.uploader.upload(
+      __dirname + `/../../assets/images/users/${req.file.filename}`,
+      { format: "png", transformation: [{ width: 500, height: 500 }] },
+      (err, result) => {
+        if (err)
+          return next(
+            new ErrorBuilder(
+              "There was a problem uploading photo, please try again!",
+              400
+            )
+          );
+        User.photo = { url: result.url, id: result.public_id };
+        fs.unlink(
+          __dirname + `/../../assets/images/users/${req.file.filename}`,
+          async () => {
+            const newUser = await User.save();
+            const token = await jwt.sign(
+              newUser.toJSON(),
+              process.env.JWT_KEY,
+              { expiresIn: 604800 }
+            );
+            res.status(200).json({
+              user: newUser,
+              status: "success",
+              token
+            });
+          }
+        );
+      }
+    );
   } catch (err) {
     return next(err);
   }

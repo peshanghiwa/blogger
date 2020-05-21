@@ -1,6 +1,13 @@
 const PostModel = require("../Model/Post");
 const fs = require("fs");
 const ErrorBuilder = require("../Utils/ErrorBuilder");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: "dqxq27c81",
+  api_key: "851162165596877",
+  api_secret: "Q10qxubSOPLk4Ikqnh7F44oMnEU"
+});
 
 exports.addPost = async (req, res, next) => {
   try {
@@ -10,19 +17,32 @@ exports.addPost = async (req, res, next) => {
     Post.author = req.decoded.id;
     Post.createdAt = new Date(Date.now());
 
-    if (req.file) {
-      Post.photo = req.file.filename;
-    } else {
-      Post.photo = "default.jpeg";
-    }
+    cloudinary.uploader.upload(
+      __dirname + `/../../assets/images/posts/${req.file.filename}`,
+      { format: "png" },
+      (err, result) => {
+        if (err)
+          return next(
+            new ErrorBuilder(
+              "There was a problem uploading photo, please try agai!",
+              400
+            )
+          );
+        Post.photo = { url: result.url, id: result.public_id };
+        fs.unlink(
+          __dirname + `/../../assets/images/posts/${req.file.filename}`,
+          async () => {
+            const newPost = await Post.save();
 
-    const newPost = await Post.save();
-
-    res.status(200).json({
-      status: "success",
-      message: "New post has been added succefully",
-      post: newPost
-    });
+            res.status(200).json({
+              status: "success",
+              message: "New post has been added succefully",
+              post: newPost
+            });
+          }
+        );
+      }
+    );
   } catch (err) {
     return next(err);
   }
@@ -50,7 +70,6 @@ exports.getPosts = async (req, res, next) => {
       requestLimit
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -73,14 +92,12 @@ exports.getPostsForSpecific = async (req, res, next) => {
       posts
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
 
 exports.getPost = async (req, res, next) => {
   try {
-    console.log("here1");
     const post = await PostModel.findOne({ postSlug: req.params.postSlug })
       .populate("author")
       .exec();
@@ -146,10 +163,14 @@ exports.deletePost = async (req, res, next) => {
         new ErrorBuilder("Sorry You can't Delete unauthorized posts", 400)
       );
 
-    if (post.photo != "default.jpeg") {
-      console.log("heeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeee");
-      fs.unlink(`./assets/images/posts/${post.photo}`, () => {});
-    }
+    cloudinary.uploader.destroy(post.photo.id, (err, result) => {
+      if (err)
+        return next(
+          new ErrorBuilder(
+            "There was a problem deleting your post, please try again!"
+          )
+        );
+    });
 
     await PostModel.findByIdAndDelete(req.params.id);
     res.status(200).json({

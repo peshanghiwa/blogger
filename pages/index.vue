@@ -7,7 +7,7 @@
         <v-card color="grey lighten-4" max-width="344" max-height="400" class="mx-auto pb-2">
           <v-list-item>
             <v-list-item-avatar color="grey">
-              <v-img :src="require(`~/assets/images/users/${post.author.photo}`)"></v-img>
+              <v-img :src="post.author.photo.url"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="subtitle-1">
@@ -24,7 +24,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-img :src="require(`~/assets/images/posts/${post.photo}`)" height="194"></v-img>
+          <v-img :src="post.photo.url" height="194"></v-img>
           <v-card-text>{{ post.content.slice(0, 40) }}...</v-card-text>
           <v-card-actions>
             <v-btn
@@ -50,7 +50,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm4 md4>
           <v-list-item-avatar style="float:left;" color="grey">
-            <v-img :src="require(`~/assets/images/users/${user.photo}`)"></v-img>
+            <v-img :src="user.photo.url"></v-img>
           </v-list-item-avatar>
           <div class="caption grey--text">Full Name</div>
           <div>{{ user.fullName }}</div>
@@ -107,12 +107,10 @@ export default {
         });
       try {
         if (event.path[0].classList[5] != "clicked-true") {
-          console.log("like");
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
         } else {
-          console.log("unlike");
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");

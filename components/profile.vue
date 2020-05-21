@@ -2,11 +2,7 @@
   <v-row>
     <v-col cols="12" offset="0" xs="12" sm="8" offset-sm="2" md="8" offset-md="2">
       <v-card class="mx-auto" max-width="600">
-        <v-img
-          class="white--text align-end"
-          height="200px"
-          :src="require(`~/assets/images/users/${user.photo}`)"
-        ></v-img>
+        <v-img class="white--text align-end" height="200px" :src="user.photo.url"></v-img>
         <v-card-text class="caption lighten-5 py-0 mt-5">Full Name</v-card-text>
         <v-card-title class="mb-5 py-0 float-left">{{user.fullName}}</v-card-title>
         <v-card-actions class="float-right">
@@ -95,6 +91,7 @@ export default {
           form.append("content", this.newPostData.content);
           form.append("photo", this.newPostData.photo);
           const response = await this.$axios.$post("/api/post/addpost", form);
+          this.$emit("newPostAdded");
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: "New Post Created Successfully!",
@@ -105,7 +102,6 @@ export default {
           this.loading = false;
           this.dialog = false;
         } catch (err) {
-          console.log(err.response.data);
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: err.response.data.message,
