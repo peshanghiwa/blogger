@@ -47,6 +47,8 @@
           @click.prevent="addComment"
           depressed
           small
+          :loading="addCommentLoad"
+          :disabled="addCommentLoad"
           color="#05386B"
           class="white--text my-3"
         >Add Comment</v-btn>
@@ -99,7 +101,8 @@ export default {
       commentRules: [v => notEmpty(v)],
       commentsLimit: 3,
       commentsSkip: 0,
-      noCommentText: "This post doesn't have any comments yet!"
+      noCommentText: "This post doesn't have any comments yet!",
+      addCommentLoad: false
     };
   },
   async asyncData({ $axios, params, error }) {
@@ -124,6 +127,7 @@ export default {
   methods: {
     async addComment() {
       if (this.$refs.form.validate()) {
+        this.addCommentLoad = true;
         this.noCommentText = "this post doesn't have any more comments!";
         if (!this.$auth.$state.loggedIn)
           return this.$store.dispatch("snackbar/showSnackbar", {
@@ -139,6 +143,7 @@ export default {
               `/api/comment/addcomment/${this.$route.params.slug}`,
               { comment: this.comment }
             );
+            this.addCommentLoad = false;
             newComment.newComment.userId = {
               photo: this.$auth.$state.user.photo,
               fullName: this.$auth.$state.user.fullName,
@@ -155,6 +160,7 @@ export default {
             });
           }
         } catch (err) {
+          this.addCommentLoad = false;
           this.$store.dispatch("snackbar/showSnackbar", {
             show: true,
             text: err.response.data.message,
