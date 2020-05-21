@@ -187,11 +187,9 @@ export default {
         if (!likeState) {
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
           post.likes.push(this.$auth.$state.user._id);
-          console.log("like added");
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
         } else {
-          console.log("like removed");
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
           post.likes.splice(post.likes.indexOf(this.$auth.$state.user._id), 1);
           event.path[0].classList.remove("clicked-true");
