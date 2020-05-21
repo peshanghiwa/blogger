@@ -47,7 +47,12 @@
             class="white--text"
           >Read Post</v-btn>
           <v-spacer></v-spacer>
-          <v-btn large icon :disabled="lockLike" @click.native="toggleLike(post._id, $event)">
+          <v-btn
+            large
+            icon
+            :disabled="lockLike"
+            @click.native="toggleLike(post._id, $auth.$state.loggedIn && post.likes.includes($auth.$state.user._id), post, $event)"
+          >
             <v-icon
               large
               :class="`clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"
@@ -106,7 +111,7 @@ export default {
   },
   props: ["user", "posts", "loggedProfile", "loadMorePostsBtn"],
   methods: {
-    async toggleLike(postId, event) {
+    async toggleLike(postId, likeState, post, event) {
       if (!this.$auth.$state.loggedIn)
         return this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
@@ -116,22 +121,28 @@ export default {
           multiline: false
         });
       try {
-        if (
-          event.path[0].classList.value.split(" ").includes("clicked-false")
-        ) {
-          this.lockLike = true;
+        if (!likeState) {
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
-          this.lockLike = false;
+          post.likes.push(this.$auth.$state.user._id);
+          console.log("like added");
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
         } else {
-          this.lockLike = true;
+          console.log("like removed");
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
-          this.lockLike = false;
+          post.likes.splice(post.likes.indexOf(this.$auth.$state.user._id), 1);
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
         }
-      } catch (err) {}
+      } catch (err) {
+        this.$store.dispatch("snackbar/showSnackbar", {
+          show: true,
+          text: err.response.data.message,
+          timeout: 10000,
+          color: "error",
+          multiline: false
+        });
+      }
     },
     updatePost(updatedPost) {
       this.$emit("postUpdated", updatedPost);

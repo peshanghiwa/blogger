@@ -35,7 +35,10 @@
               class="white--text"
             >Read</v-btn>
             <v-spacer></v-spacer>
-            <v-btn icon @click.native="toggleLike(post._id, $event)">
+            <v-btn
+              icon
+              @click.native="toggleLike(post._id, $auth.$state.loggedIn && post.likes.includes($auth.$state.user._id), post, $event)"
+            >
               <v-icon
                 :class="`clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"
               >mdi-heart</v-icon>
@@ -96,7 +99,7 @@ export default {
     }
   },
   methods: {
-    async toggleLike(postId, event) {
+    async toggleLike(postId, likeState, post, event) {
       if (!this.$auth.$state.loggedIn)
         return this.$store.dispatch("snackbar/showSnackbar", {
           show: true,
@@ -106,16 +109,16 @@ export default {
           multiline: false
         });
       try {
-        if (
-          event.path[0].classList.value.split(" ").includes("clicked-false")
-        ) {
+        if (!likeState) {
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
+          post.likes.push(this.$auth.$state.user._id);
           console.log("like added");
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
         } else {
           console.log("like removed");
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
+          post.likes.splice(post.likes.indexOf(this.$auth.$state.user._id), 1);
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
         }
