@@ -47,7 +47,7 @@
             class="white--text"
           >Read Post</v-btn>
           <v-spacer></v-spacer>
-          <v-btn large icon :disabled="lockLike" @click="toggleLike(post._id, $event)">
+          <v-btn large icon :disabled="lockLike" @click.native="toggleLike(post._id, $event)">
             <v-icon
               large
               :class="`clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"

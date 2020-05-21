@@ -35,7 +35,7 @@
               class="white--text"
             >Read</v-btn>
             <v-spacer></v-spacer>
-            <v-btn icon @click="toggleLike(post._id, $event)">
+            <v-btn icon @click.native="toggleLike(post._id, $event)">
               <v-icon
                 :class="`clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"
               >mdi-heart</v-icon>
@@ -106,14 +106,17 @@ export default {
           multiline: false
         });
       try {
+        console.log("inside");
         if (event.path[0].classList[5] != "clicked-true") {
           await this.$axios.$post(`/api/like/addlike/${postId}`, {});
           event.path[0].classList.remove("clicked-false");
           event.path[0].classList.add("clicked-true");
+          console.log("liked");
         } else {
           await this.$axios.$delete(`/api/like/removelike/${postId}`);
           event.path[0].classList.remove("clicked-true");
           event.path[0].classList.add("clicked-false");
+          console.log("unliked");
         }
       } catch (err) {
         this.$store.dispatch("snackbar/showSnackbar", {

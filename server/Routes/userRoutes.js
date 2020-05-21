@@ -8,7 +8,7 @@ const rateLimit = require("express-rate-limit");
 const emailLimit = rateLimit({
   max: 5,
   windowMs: 24 * 60 * 60 * 1000,
-  message: "You have reached request limits please try again later",
+  message: "You have reached request limits please try again later"
 });
 
 const router = express.Router();

@@ -37,7 +37,7 @@ exports.sendEmail = async (req, res, next) => {
       email: req.body.email,
       subject: "Resset Your Forgotten Password",
       message: `Your Password Reset Digit Code is: ${generatedDigit} available for only 30 minutes, later on it expires...`,
-      html: `<h3>Your Password Reset Digit Code is:<b style="color:red;"> ${generatedDigit}</b> available for only 30 minutes, later on it expires...</h3>`,
+      html: `<h3>Your Password Reset Digit Code is:<b style="color:red;"> ${generatedDigit}</b> available for only 30 minutes, later on it expires...</h3>`
     });
 
     const updatedRecoverySettings = await UserModel.findByIdAndUpdate(
@@ -47,15 +47,15 @@ exports.sendEmail = async (req, res, next) => {
           changedAt: email.passwordRecovery.changedAt,
           sent: true,
           timeout: Date.now() + 180000,
-          digit: hashedDigit,
-        },
+          digit: hashedDigit
+        }
       },
       { new: true }
     ).select("+passwordRecovery");
 
     res.status(200).json({
       status: "success",
-      message: "a 5 digit code has been sent to your email successfully!",
+      message: "a 5 digit code has been sent to your email successfully!"
     });
   } catch (err) {
     next(err);
@@ -98,8 +98,8 @@ exports.checkDigit = async (req, res, next) => {
             sent: false,
             timeout: 0,
             digit: 0,
-            readyToChange: false,
-          },
+            readyToChange: false
+          }
         },
         { new: true }
       );
@@ -122,8 +122,8 @@ exports.checkDigit = async (req, res, next) => {
           sent: false,
           timeout: Date.now() + 180000,
           digit: 0,
-          readyToChange: true,
-        },
+          readyToChange: true
+        }
       },
       { new: true }
     ).select("+passwordRecovery");
@@ -131,7 +131,7 @@ exports.checkDigit = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       data: email,
-      newData: PasswordRecoverySetting,
+      newData: PasswordRecoverySetting
     });
   } catch (err) {
     next(err);
@@ -174,8 +174,8 @@ exports.recoverPassword = async (req, res, next) => {
             sent: false,
             timeout: 0,
             digit: 0,
-            readyToChange: false,
-          },
+            readyToChange: false
+          }
         },
         { new: true }
       );
@@ -198,15 +198,15 @@ exports.recoverPassword = async (req, res, next) => {
           sent: false,
           timeout: 0,
           digit: 0,
-          readyToChange: false,
-        },
+          readyToChange: false
+        }
       },
       { new: true }
     );
 
     res.status(200).json({
       status: "success",
-      message: "Password reset successfully",
+      message: "Password reset successfully"
     });
   } catch (err) {
     next(err);

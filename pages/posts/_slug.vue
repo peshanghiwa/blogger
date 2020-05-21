@@ -17,7 +17,12 @@
       </v-card-subtitle>
       <v-card-text class="subtitle-1 black--text">{{post.content}}</v-card-text>
       <v-card-actions>
-        <v-btn @click="toggleLike(post._id, $event)" style="font-size:20px" text color="#272727">
+        <v-btn
+          @click.native="toggleLike(post._id, $event)"
+          style="font-size:20px"
+          text
+          color="#272727"
+        >
           <span
             :class="`material-icons mr-1 clicked-${$auth.$state.loggedIn && post.likes.includes($auth.$state.user._id)}`"
           >favorite</span>
